@@ -69,3 +69,41 @@
 
 
 
+
+const express = require('express');
+
+const server = express();
+
+const data = require('./user.json');
+
+// console.log(data);
+
+const middleWare = (req,res,next)=>{
+    console.log(req.query);
+    if(req.query.password === '1234'){
+        console.log('Success');
+        next();
+    }else{
+        res.status(401);
+        res.write('enter correct password');
+        res.end();
+    }
+};
+
+server.use(middleWare);
+
+server.get('/',middleWare,(req,res) => {
+    res.status(200);
+    res.write('Login successful');
+    res.end();
+});
+
+server.get('/user',(req,res) => {
+    res.status(200);
+    res.setHeader('Content-Type', 'application/json');
+    res.json(JSON.parse(data));
+});
+
+server.listen(3000,()=>{
+    console.log(`Server is running on port http://localhost:3000`);  
+});
