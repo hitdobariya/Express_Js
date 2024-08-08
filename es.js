@@ -2,22 +2,18 @@ const express = require('express');
 
 const server = express();
 
-
-//built-in middleware
+const product = ('./product.json');
 
 server.use(express.json());
-// server.use(express.urlencoded({extended: true}));
 
-const middleWare = (req,res,next)=>{
-    console.log(req.body.name);
-    next();
-};
+const morgan = require('morgan');
+
+server.use(morgan('dev'));
 
 
 server.get('/',(req, res) => {
-    res.setHeader('Content-Type', 'text/plain');
-    res.send('Hello, world');
-    res.end();
+    res.setHeader('Content-Type', 'application/json');
+    res.json(product);
 });
 
 
