@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "es.js",
   "scripts": {
-    "start": "node es.js",
-    "dev": "nodemon es.js"
+    "start": "node es2.js",
+    "dev": "nodemon es2.js"
   },
   "author": "",
   "license": "ISC",
