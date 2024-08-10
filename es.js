@@ -10,15 +10,13 @@ server.use(express.json());
 
 server.use(morgan('dev'));
 
-// server.get('/',(req, res) => {
-//     res.setHeader('Content-Type', 'application/json');
-//     res.write('hello world');
-// });
 
-server.post('/product', (req,res) => {
-    // console.log(req.body);
-    product.push(req.body);
-    res.json({product : req.body , message : 'data added successfully'});
+server.put('/product/:id', (req, res) => {
+    let id = +req.params.id;
+    let productIndex  =  product.findIndex((product)=> product.id === id);
+    // console.log(productIndex);
+    product.splice(productIndex , 1 , {...req.body});
+    res.json({message : 'replace product successfully'});
 });
 
 server.get('/product', (req,res) => {
@@ -31,6 +29,6 @@ server.get('/product/:id', (req,res) => {
     res.json(item);
 });
 
-// server.listen(5000,()=>{
-//     console.log(`Server is running on port http://localhost:5000`);  
-// });
+server.listen(6000,()=>{
+    console.log(`Server is running on port http://localhost:6000`);  
+});
