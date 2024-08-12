@@ -4,7 +4,7 @@
   "main": "es.js",
   "scripts": {
     "start": "node es.js",
-    "dev": "nodemon es.js"
+    "dev": "nodemon es2.js"
   },
   "author": "",
   "license": "ISC",

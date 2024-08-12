@@ -1,35 +1,21 @@
-// const express = require('express');
+const express = require('express');
 
-// const server = express();
+const server = express();
 
-// const morgan = require('morgan');
+const userRoutes = require('./routes/user.routes');
 
-// const user = require('./user.json');
+const morgan = require('morgan');
 
-// server.use(express.json());
+server.use(express.json());
 
-// server.use(morgan('dev'));
+server.use(morgan('dev'));
 
-// server.get('/', (req,res) => {
-//     res.write('hello world');
-//     res.end();
-// });
+server.get('/', (req, res) => {
+    res.send('hello world');
+});
 
-// server.post('/user', (req,res) => {
-//     user.push(req.body);
-//     res.json({user : req.body , message : 'user added successfully'});
-// });
+server.use('/api/user', userRoutes);
 
-// server.get('/user', (req,res) => {
-//     res.json(user);
-// });
-
-// server.get('/user/:id', (req,res) => {
-//     let id = +req.params.id;
-//     let item = user.find((user) => user.id === id);
-//     res.json(item);
-// });
-
-// server.listen(5000, () => {
-//     console.log(`server start at http://localhost:5000`);
-// });
+server.listen(7000, () => {
+    console.log(`server start at http://localhost:7000`);
+});

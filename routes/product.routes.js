@@ -1,17 +1,24 @@
+
+const express = require('express');
+
+const productRoutes = express();
+
 const {
     addProduct,
     updateProduct,
     deleteProduct,
     getProduct ,
-    getSingleProducts
+    getSingleProduct
 } = require('../controller/product.controller');
 
-server.put('/product/:id', );
+productRoutes.put('/:id', addProduct);
 
-server.patch('/product/:id', );
+productRoutes.patch('/:id', updateProduct);
 
-server.delete('/product/:id',);
+productRoutes.delete('/:id', deleteProduct);
 
-server.get('/product', );
+productRoutes.get('/', getProduct);
 
-server.get('/product/:id', );
+productRoutes.get('/:id', getSingleProduct);
+
+module.exports = productRoutes;
