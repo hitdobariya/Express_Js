@@ -4,13 +4,14 @@
   "main": "es.js",
   "scripts": {
     "start": "node es.js",
-    "dev": "nodemon es2.js"
+    "dev": "nodemon es.js"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "express": "^4.19.2",
+    "mongoose": "^8.5.2",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
