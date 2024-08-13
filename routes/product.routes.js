@@ -1,27 +1,26 @@
-
 const express = require('express');
 
-const productRoutes = express();
+const productRoutes = express.Router();
 
 const {
     addProduct,
-    replaceProduct,
-    updateProduct,
-    deleteProduct,
-    getProduct ,
-    getSingleProduct
+    // replaceProduct,
+    // updateProduct,
+    // deleteProduct,
+    // getProduct ,
+    // getSingleProduct
 } = require('../controller/product.controller');
 
 productRoutes.post('/', addProduct);
 
-productRoutes.put('/:id', replaceProduct);
+// productRoutes.put('/:id', replaceProduct);
 
-productRoutes.patch('/:id', updateProduct);
+// productRoutes.patch('/:id', updateProduct);
 
-productRoutes.delete('/:id', deleteProduct);
+// productRoutes.delete('/:id', deleteProduct);
 
-productRoutes.get('/', getProduct);
+// productRoutes.get('/', getProduct);
 
-productRoutes.get('/:id', getSingleProduct);
+// productRoutes.get('/:id', getSingleProduct);
 
 module.exports = productRoutes;
