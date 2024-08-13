@@ -1,6 +1,11 @@
 const product = require('../product.json');
 
-exports.addProduct = (req, res) => {
+exports.addProduct = (req,res) => {
+    product.push(req.body);
+    res.json({message : 'product add successfully'});
+};
+
+exports.replaceProduct = (req, res) => {
     let id = +req.params.id;
     let productIndex  =  product.findIndex((product) => product.id === id);
     // console.log(productIndex);
