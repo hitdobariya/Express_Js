@@ -3,17 +3,17 @@ const express = require('express');
 const userRoutes = express();
 
 const {
-    getUser,
     addUser,
+    getUser,
     // replaceUser,
     // updateUser,
     // deleteUser,
     // getSingleUser
 } = require('../controller/user.controller');
 
-userRoutes.get('/', getUser);
-
 userRoutes.post('/', addUser);
+
+userRoutes.get('/', getUser);
 
 // userRoutes.put('/:id', replaceUser);
 
