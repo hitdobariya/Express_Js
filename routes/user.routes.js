@@ -8,7 +8,7 @@ const {
     // replaceUser,
     // updateUser,
     // deleteUser,
-    // getSingleUser
+    getSingleUser
 } = require('../controller/user.controller');
 
 userRoutes.post('/', addUser);
@@ -21,6 +21,6 @@ userRoutes.get('/', getUser);
 
 // userRoutes.delete('/:id', deleteUser);
 
-// userRoutes.get('/:id', getSingleUser);
+userRoutes.get('/getuser', getSingleUser);
 
 module.exports = userRoutes;

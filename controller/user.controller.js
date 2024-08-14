@@ -21,3 +21,14 @@ exports.getUser = async (req,res) => {
         res.status(500).json({message : 'enternal server error'});
     }
 };
+
+exports.getSingleUser = async (req,res) => {
+    try {
+        let user = await User.findOne({_id : req.query.userId});
+        
+        if(!user) return res.status(404).json({message : 'user not found'});
+        res.status(200).json(user);
+    } catch {
+        res.status(500).json({message : 'enternal server error'});
+    }
+};      
