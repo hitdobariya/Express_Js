@@ -7,8 +7,8 @@ const {
     // replaceProduct,
     // updateProduct,
     // deleteProduct,
-    // getProduct ,
-    // getSingleProduct
+    getProduct ,
+    getSingleProduct
 } = require('../controller/product.controller');
 
 productRoutes.post('/', addProduct);
@@ -19,8 +19,8 @@ productRoutes.post('/', addProduct);
 
 // productRoutes.delete('/:id', deleteProduct);
 
-// productRoutes.get('/', getProduct);
+productRoutes.get('/', getProduct);
 
-// productRoutes.get('/:id', getSingleProduct);
+productRoutes.get('/', getSingleProduct);
 
 module.exports = productRoutes;
