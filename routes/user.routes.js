@@ -6,8 +6,8 @@ const {
     addUser,
     getUser,
     // replaceUser,
-    // updateUser,
-    // deleteUser,
+    updateUser,
+    deleteUser,
     getSingleUser
 } = require('../controller/user.controller');
 
@@ -17,9 +17,9 @@ userRoutes.get('/', getUser);
 
 // userRoutes.put('/:id', replaceUser);
 
-// userRoutes.patch('/:id', updateUser);
+userRoutes.patch('/', updateUser);
 
-// userRoutes.delete('/:id', deleteUser);
+userRoutes.delete('/', deleteUser);
 
 userRoutes.get('/getuser', getSingleUser);
 

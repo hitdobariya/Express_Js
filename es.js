@@ -22,6 +22,6 @@ server.get('/', (req,res) => {
 server.use('/api/product', productRoutes);
 server.use('/api/user', userRoutes);
 
-server.listen(9000,()=>{
-    console.log(`Server is running on port http://localhost:9000`);  
+server.listen(1100,()=>{
+    console.log(`Server is running on port http://localhost:1100`);  
 });

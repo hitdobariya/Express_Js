@@ -5,8 +5,8 @@ const productRoutes = express.Router();
 const {
     addProduct,
     // replaceProduct,
-    // updateProduct,
-    // deleteProduct,
+    updateProduct,
+    deleteProduct,
     getProduct ,
     getSingleProduct
 } = require('../controller/product.controller');
@@ -15,12 +15,12 @@ productRoutes.post('/', addProduct);
 
 // productRoutes.put('/:id', replaceProduct);
 
-// productRoutes.patch('/:id', updateProduct);
+productRoutes.patch('/', updateProduct);
 
-// productRoutes.delete('/:id', deleteProduct);
+productRoutes.delete('/', deleteProduct);
 
 productRoutes.get('/', getProduct);
 
-productRoutes.get('/', getSingleProduct);
+productRoutes.get('/get-product', getSingleProduct);
 
 module.exports = productRoutes;
