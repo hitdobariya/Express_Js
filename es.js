@@ -1,5 +1,6 @@
 const express = require('express');
 const server = express();
+port = process.env.PORT
 
 const productRoutes = require('./routes/product.routes');
 const userRoutes = require('./routes/user.routes');
@@ -22,6 +23,6 @@ server.get('/', (req,res) => {
 server.use('/api/product', productRoutes);
 server.use('/api/user', userRoutes);
 
-server.listen(1100,()=>{
-    console.log(`Server is running on port http://localhost:1100`);  
+server.listen(port,()=>{
+    console.log(`Server is running on port http://localhost:${port}`);  
 });
