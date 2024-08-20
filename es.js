@@ -2,6 +2,7 @@ const express = require('express');
 const server = express();
 require('dotenv').config()
 port = process.env.PORT
+URL = process.env.MONGO_URL
 
 const productRoutes = require('./routes/product.routes');
 const userRoutes = require('./routes/user.routes');
@@ -12,18 +13,18 @@ server.use(morgan('dev'));
 const mongoose = require('mongoose');
 mongoose
     // .connect('mongodb://localhost:27017/product')
-    .connect('mongodb://localhost:27017/user')
-    .then(()=> console.log(`Database connect successfully`))
+    .connect(URL)
+    .then(() => console.log(`Database connect successfully`))
     .catch(err => console.log(err))
 server.use(express.json());
 
-server.get('/', (req,res) => {
+server.get('/', (req, res) => {
     res.send('hello world');
 });
 
 server.use('/api/product', productRoutes);
 server.use('/api/user', userRoutes);
 
-server.listen(port,()=>{
-    console.log(`Server is running on port http://localhost:${port}`);  
+server.listen(port, () => {
+    console.log(`Server is running on port http://localhost:${port}`);
 });
