@@ -1,6 +1,7 @@
 const express = require('express');
 
-const userRoutes = express();
+const userRoutes = express.Router();
+
 
 const {
     addUser,
@@ -9,9 +10,12 @@ const {
     updateUser,
     deleteUser,
     getSingleUser,
-    registration,
-    login
+    userRegistration,
+    userLogin,
+    userProfile
 } = require('../controller/user.controller');
+const { verifyToken } = require('../helper/tokenVerify');
+
 
 userRoutes.post('/', addUser);
 
@@ -25,8 +29,10 @@ userRoutes.delete('/', deleteUser);
 
 userRoutes.get('/getuser', getSingleUser);
 
-userRoutes.post('/reg', registration);
+userRoutes.post('/reg', userRegistration);
 
-userRoutes.post('/login', login)
+userRoutes.post('/login', userLogin)
+
+userRoutes.get("/me", verifyToken, userProfile)
 
 module.exports = userRoutes;

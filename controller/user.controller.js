@@ -1,5 +1,6 @@
 const User = require('../model/user.model');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 exports.addUser = async (req, res) => {
     try {
@@ -76,7 +77,7 @@ exports.deleteUser = async (req, res) => {
     }
 };
 
-exports.registration = async (req, res) => {
+exports.userRegistration = async (req, res) => {
     try {
         let user = await User.findOne({ email: req.body.email, isDelete: false });
         if (user) return res.status(400).json({ message: 'user already exists...' });
@@ -89,16 +90,26 @@ exports.registration = async (req, res) => {
     }
 };
 
-exports.login = async (req, res) => {
+exports.userLogin = async (req, res) => {
     try {
         let user = await User.findOne({ email: req.body.email, isDelete: false });
         if (!user) return res.status(404).json({ message: 'user not found...' });
         let matchpassword = await bcrypt.compare(req.body.password, user.password);
         if (!matchpassword) return res.status(400).json({ message: 'email or password incorrect...' });
-        res.status(200).json({ message: 'login successs...', user })
+        let token = await jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+        // console.log(token);      
+        res.status(200).json({ message: 'login successs...', token });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'internal server error...' });
     }
 };
 
+exports.userProfile = async (req, res) => {
+    try {
+        res.status(200).json(req.user);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'internal server error...' });
+    }
+};
