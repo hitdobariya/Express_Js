@@ -2,14 +2,37 @@ const User = require('../model/user.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-exports.addUser = async (req, res) => {
+exports.userLogin = async (req, res) => {
     try {
-        const { firstName, lastName, email, age, address } = req.body;
-        let user = await User.findOne({ email: email }, { isDelete: false });
-        if (user) return res.status(400).json({ message: 'user already exist...' });
-        user = await User.create({ firstName, lastName, email, age, address });
-        user.save();
-        res.status(201).json({ message: 'user added successfully...' });
+        let user = await User.findOne({ email: req.body.email, isDelete: false });
+        if (!user) return res.status(404).json({ message: 'user not found...' });
+        let matchpassword = await bcrypt.compare(req.body.password, user.password);
+        if (!matchpassword) return res.status(400).json({ message: 'email or password incorrect...' });
+        let token = await jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+        // console.log(token);      
+        res.status(200).json({ message: 'login successs...', token });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'internal server error...' });
+    }
+};
+
+exports.userRegistration = async (req, res) => {
+    try {
+        let user = await User.findOne({ email: req.body.email, isDelete: false });
+        if (user) return res.status(400).json({ message: 'user already exists...' });
+        let hashpasssword = await bcrypt.hash(req.body.password, 10);
+        user = await User.create({ ...req.body, password: hashpasssword });
+        res.status(201).json({ message: 'user registration successfully...' });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'internal server error...' });
+    }
+};
+
+exports.userProfile = async (req, res) => {
+    try {
+        res.status(200).json(req.user);
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'internal server error...' });
@@ -26,24 +49,11 @@ exports.getUser = async (req, res) => {
     }
 };
 
-exports.getSingleUser = async (req, res) => {
-    try {
-        let user = await User.findOne({ _id: req.query.userId }, { isDelete: false });
-        if (!user) return res.status(404).json({ message: 'user not found...' });
-        res.status(200).json(user);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: 'internal server error...' });
-    }
-};
-
 exports.updateUser = async (req, res) => {
     try {
-        let user = await User.findOne({ _id: req.query.id }, { isDelete: false });
-        if (!user) return res.status(404).json({ message: 'user not found...' });
-        // user = await User.updateOne({ _id: req.query.id }, { $set: req.body }, { new: true });
-        // user = await User.findByIdAndDelete(req.query.id, { $set: req.body }, { new: true });
-        res.status(200).json({ message: 'user update successfully...' });
+        let user = req.user;
+        user = await User.findByIdAndUpdate(user._id, { $set: req.body }, { new: true });
+        res.status(200).json({ user, message: 'user update successfully...' });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'internal server error...' });
@@ -67,47 +77,9 @@ exports.updateUser = async (req, res) => {
 // --- soft delete
 exports.deleteUser = async (req, res) => {
     try {
-        let user = await user.findone({ _id: req.query.id }, { isDelete: false });
-        if (!user) return res.status(404).json({ message: 'user not found...' });
-        user = await user.updateOne({ _id: req.query.id }, { $set: { isDelete: true } }, { new: true });
+        let user = req.user;
+        user = await User.findByIdAndUpdate(user._id, { $set: { isDelete: true } }, { new: true });
         res.status(200).json({ message: 'user deleted successfully...' });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: 'internal server error...' });
-    }
-};
-
-exports.userRegistration = async (req, res) => {
-    try {
-        let user = await User.findOne({ email: req.body.email, isDelete: false });
-        if (user) return res.status(400).json({ message: 'user already exists...' });
-        let hashpasssword = await bcrypt.hash(req.body.password, 10);
-        user = await User.create({ ...req.body, password: hashpasssword });
-        res.status(201).json({ message: 'user registration successfully...' });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: 'internal server error...' });
-    }
-};
-
-exports.userLogin = async (req, res) => {
-    try {
-        let user = await User.findOne({ email: req.body.email, isDelete: false });
-        if (!user) return res.status(404).json({ message: 'user not found...' });
-        let matchpassword = await bcrypt.compare(req.body.password, user.password);
-        if (!matchpassword) return res.status(400).json({ message: 'email or password incorrect...' });
-        let token = await jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-        // console.log(token);      
-        res.status(200).json({ message: 'login successs...', token });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: 'internal server error...' });
-    }
-};
-
-exports.userProfile = async (req, res) => {
-    try {
-        res.status(200).json(req.user);
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'internal server error...' });
