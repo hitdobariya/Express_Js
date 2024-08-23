@@ -14,6 +14,7 @@ const userSchema = mongoose.Schema({
         required: true
     },
     age: Number,
+    profileImage: [String],
     password: String,
     addresss: {
         line1: String,
