@@ -19,11 +19,16 @@ exports.userLogin = async (req, res) => {
 
 exports.userRegistration = async (req, res) => {
     try {
+        let imagepath = "";
         let user = await User.findOne({ email: req.body.email, isDelete: false });
-        if (user) return res.status(400).json({ message: 'user already exists...' });
-        let hashpasssword = await bcrypt.hash(req.body.password, 10);
-        user = await User.create({ ...req.body, password: hashpasssword });
-        res.status(201).json({ message: 'user registration successfully...' });
+        if (user) {
+            return res.status(400).json({ message: 'user already exists...' });
+        }
+            if (req.file) { imagepath = req.file.path.replace(/\\/g, '/') };
+            let hashpasssword = await bcrypt.hash(req.body.password, 10);
+            user = await User.create({ ...req.body, password: hashpasssword , profileImage: imagepath });
+            res.status(201).json({ message: 'user registration successfully...' });
+        
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'internal server error...' });
@@ -52,6 +57,8 @@ exports.getUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
     try {
         let user = req.user;
+        let imagepath = '';
+        if (req.file) { imagepath = req.file.path.replace(/\\/g, '/') };
         user = await User.findByIdAndUpdate(user._id, { $set: req.body }, { new: true });
         res.status(200).json({ user, message: 'user update successfully...' });
     } catch (error) {

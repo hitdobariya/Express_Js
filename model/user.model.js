@@ -14,8 +14,11 @@ const userSchema = mongoose.Schema({
         required: true
     },
     age: Number,
-    profileImage: [String],
-    password: String,
+    profileImage: String,
+    password: {
+        type: String,
+        required: true
+    },
     addresss: {
         line1: String,
         line2: String,

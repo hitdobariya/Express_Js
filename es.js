@@ -10,6 +10,9 @@ const userRoutes = require('./routes/user.routes');
 const morgan = require('morgan');
 server.use(morgan('dev'));
 
+const path = require('path');
+server.use("uploadImages", express.static(path.join(__dirname, 'uploadImages')));
+
 const mongoose = require('mongoose');
 mongoose
     // .connect('mongodb://localhost:27017/product')

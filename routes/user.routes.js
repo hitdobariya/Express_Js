@@ -12,10 +12,11 @@ const {
     deleteUser,
 } = require('../controller/user.controller');
 const { verifyToken } = require('../helper/tokenVerify');
+const { upload } = require('../helper/uploadImage');
 
 userRoutes.post('/login', userLogin)
 
-userRoutes.post('/reg', userRegistration);
+userRoutes.post('/reg', upload.single('profileImage'), userRegistration);
 
 userRoutes.get("/getuser", verifyToken, userProfile)
 
