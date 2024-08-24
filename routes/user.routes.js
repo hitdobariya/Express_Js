@@ -10,6 +10,7 @@ const {
     updateUser,
     changePassword,
     deleteUser,
+    specUser,
 } = require('../controller/user.controller');
 const { verifyToken } = require('../helper/tokenVerify');
 const { upload } = require('../helper/uploadImage');
@@ -27,5 +28,7 @@ userRoutes.patch('/updateuser', verifyToken, updateUser);
 userRoutes.post('/changepassword', verifyToken, changePassword);
 
 userRoutes.delete('/deleteuser', verifyToken, deleteUser);
+
+userRoutes.get('/users', specUser);
 
 module.exports = userRoutes;

@@ -21,14 +21,12 @@ exports.userRegistration = async (req, res) => {
     try {
         let imagepath = "";
         let user = await User.findOne({ email: req.body.email, isDelete: false });
-        if (user) {
-            return res.status(400).json({ message: 'user already exists...' });
-        }
-            if (req.file) { imagepath = req.file.path.replace(/\\/g, '/') };
-            let hashpasssword = await bcrypt.hash(req.body.password, 10);
-            user = await User.create({ ...req.body, password: hashpasssword , profileImage: imagepath });
-            res.status(201).json({ message: 'user registration successfully...' });
-        
+        if (user) return res.status(400).json({ message: 'user already exists...' });
+        if (req.file) { imagepath = req.file.path.replace(/\\/g, '/') };
+        let hashpasssword = await bcrypt.hash(req.body.password, 10);
+        user = await User.create({ ...req.body, password: hashpasssword, profileImage: imagepath });
+        res.status(201).json({ message: 'user registration successfully...' });
+
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'internal server error...' });
@@ -109,3 +107,18 @@ exports.deleteUser = async (req, res) => {
         res.status(500).json({ message: 'internal server error...' });
     }
 };
+
+exports.specUser = async (req, res) => {
+    try {
+        let user = {
+            firstName: "hit",
+            lastName: "patel",
+            email: "hit@gmail.com",
+            mobileno: "1234567891",
+        }
+        res.render('user.ejs', {user});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'internal server error...' });
+    }
+}

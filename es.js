@@ -7,6 +7,9 @@ URL = process.env.MONGO_URL
 const productRoutes = require('./routes/product.routes');
 const userRoutes = require('./routes/user.routes');
 
+const ejs = require('ejs');
+server.set("view engine", 'ejs');
+
 const morgan = require('morgan');
 server.use(morgan('dev'));
 
