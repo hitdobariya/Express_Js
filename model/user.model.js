@@ -1,28 +1,31 @@
 const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
-    firstName: {
+    first_name: {
         type: String,
         required: true
     },
-    lastName: {
+    last_name: {
         type: String,
         required: true
     },
-    email: {
+    emp_email: {
         type: String,
         required: true
     },
-    age: Number,
-    profileImage: String,
+    emp_phone: {
+        type: Number
+    },
+
     password: {
         type: String,
         required: true
     },
-    addresss: {
-        line1: String,
-        line2: String,
-        pincode: Number
+    department: {
+        type: String
+    },
+    age: {
+        type: Number,
     },
     isDelete: {
         type: Boolean,

@@ -116,9 +116,67 @@ exports.specUser = async (req, res) => {
             email: "hit@gmail.com",
             mobileno: "1234567891",
         }
-        res.render('user.ejs', {user});
+        res.render('user.ejs', { user });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'internal server error...' });
     }
 }
+
+
+exports.getLogin = (req, res) => {
+    res.render('login', {
+        title: 'Login',
+        canonical: '',
+        googleSiteVerification: 'kCT200-J0rfczENRkJQdYCqsDKkUo3Hvr3KZic_otwU',
+        description: 'Datta Able Bootstrap admin template made using Bootstrap 4...',
+        keywords: 'admin templates, bootstrap admin templates, ...',
+        author: 'CodedThemes',
+        favicon: 'https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/images/favicon.ico',
+        fontawesomeCss: 'https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/fonts/fontawesome/css/fontawesome-all.min.css',
+        animationCss: 'https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/plugins/animation/css/animate.min.css',
+        styleCss: 'https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/css/style.css',
+        darkCss: 'https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/css/dark.css',
+        vendorJs: 'https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/js/vendor-all.min.js',
+        bootstrapJs: 'https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/plugins/bootstrap/js/bootstrap.min.js',
+        pcodedJs: 'https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/js/pcoded.min.js',
+        darkModeJs: 'https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/js/dark-mode.js',
+        signUpUrl: '/register',
+        resetPasswordUrl: '/reset'
+    });
+};
+
+exports.postLogin = (req, res) => {
+    const { email, password } = req.body;
+    console.log('Login attempt:', { email, password });
+    res.redirect('/login');
+};
+
+
+exports.getRegistration = (req, res) => {
+    res.render('register', {
+        title: 'Register Employee',
+        canonical: '',
+        googleSiteVerification: 'kCT200-J0rfczENRkJQdYCqsDKkUo3Hvr3KZic_otwU',
+        description: 'Datta Able Bootstrap admin template made using Bootstrap 4...',
+        keywords: 'admin templates, bootstrap admin templates, ...',
+        author: 'CodedThemes',
+        favicon: 'https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/images/favicon.ico',
+        fontawesomeCss: 'https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/fonts/fontawesome/css/fontawesome-all.min.css',
+        animationCss: 'https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/plugins/animation/css/animate.min.css',
+        styleCss: 'https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/css/style.css',
+        darkCss: 'https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/css/dark.css',
+        formAction: '/register', // URL for form submission
+        loginUrl: '/login', // URL to login page
+        vendorJs: 'https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/js/vendor-all.min.js',
+        bootstrapJs: 'https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/plugins/bootstrap/js/bootstrap.min.js',
+        pcodedJs: 'https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/js/pcoded.min.js',
+        darkModeJs: 'https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/js/dark-mode.js'
+    });
+};
+
+exports.postRegistration = (req, res) => {
+    const { first_name, last_name, emp_email, emp_phone, password, department, age } = req.body;
+    console.log('Registration attempt:', { first_name, last_name, emp_email, emp_phone, password, department, age });
+    res.redirect('/login');
+};

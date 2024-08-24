@@ -9,17 +9,22 @@ const {
     getUser,
     updateUser,
     changePassword,
+    forgotPassword,
     deleteUser,
     specUser,
+    getLogin,
+    postLogin,
+    getRegistration,
+    postRegistration,
 } = require('../controller/user.controller');
 const { verifyToken } = require('../helper/tokenVerify');
 const { upload } = require('../helper/uploadImage');
 
-userRoutes.post('/login', userLogin)
+// userRoutes.post('/login', userLogin)
 
 userRoutes.post('/reg', upload.single('profileImage'), userRegistration);
 
-userRoutes.get("/getuser", verifyToken, userProfile)
+userRoutes.get("/getuser", verifyToken, userProfile);
 
 userRoutes.get('/getalluser', getUser);
 
@@ -30,5 +35,13 @@ userRoutes.post('/changepassword', verifyToken, changePassword);
 userRoutes.delete('/deleteuser', verifyToken, deleteUser);
 
 userRoutes.get('/users', specUser);
+
+userRoutes.get('/login', getLogin);
+
+userRoutes.post('/login', postLogin);
+
+userRoutes.get('/register',getRegistration);
+
+userRoutes.post('/register',postRegistration);
 
 module.exports = userRoutes;
