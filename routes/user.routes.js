@@ -2,6 +2,8 @@ const express = require('express');
 
 const userRoutes = express.Router();
 
+// const User = require("./model/user.model");
+
 const {
     // userLogin,
     // userRegistration,
@@ -14,11 +16,13 @@ const {
     // specUser,
     loginUser,
     Registration,
+    todolist
 } = require('../controller/user.controller');
 // const { verifyToken } = require('../helper/tokenVerify');
 // const { upload } = require('../helper/uploadImage');
 const passport = require('passport');
-
+const { isAuthenticated} = require('../helper/passportauth')
+ 
 // userRoutes.post('/login', userLogin)
 
 // userRoutes.post('/reg', upload.single('profileImage'), userRegistration);
@@ -35,14 +39,19 @@ const passport = require('passport');
 
 // userRoutes.get('/users', specUser);
 
-userRoutes.post('/login', passport.authenticate('local', {
-    successRedirect: '/dashboard',
-    failureRedirect: '/login',
-    failureFlash: true
-}));
+userRoutes.get("/todolist", isAuthenticated, todolist);
 
-userRoutes.get('/login', loginUser);
+userRoutes.post("/login", passport.authenticate("local", { failureRedirect: "/register", successRedirect: "/todolist" }));
 
-userRoutes.get('/register', Registration);
+userRoutes.get("/login", loginUser);
+
+userRoutes.post("/register", Registration);
+
+userRoutes.get("/register", Registration);
+
+// userRoutes.get("/logout", (req, res) => {
+//     req.logout();
+//     res.send("logged out");
+// });
 
 module.exports = userRoutes;

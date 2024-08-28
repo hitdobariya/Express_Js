@@ -1,6 +1,6 @@
-// const User = require('../model/user.model');
-// const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
+const User = require('../model/user.model');
+const bcrypt = require('bcrypt');
+const passport = require('passport');
 
 // exports.userLogin = async (req, res) => {
 //     try {
@@ -123,29 +123,36 @@
 //     }
 // }
 
-exports.loginUser = (req, res) => {
+exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
-    console.log('Login attempt:', { email, password });
+    console.log('Login attempt:',  req.body);
     res.render('login');
 };
 
 exports.Registration = async (req, res) => {
-    const { first_name, last_name, emp_email, emp_phone, password, department, age } = req.body;
     try {
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const { first_name, last_name, email, phone, password, department, age } = req.body;
+        const user = await User.findOne({ userName: req.body.email, isDelete: false });
+        if (user)
+            return res.status(400).send('User allready Exist...')
+        // const hashPassword = await bcrypt.hash(password, 10);
         const newUser = new User({
             first_name,
             last_name,
-            email: emp_email,
-            phone: emp_phone,
-            password: hashedPassword,
+            email,
+            phone,
+            password,
             department,
             age
         });
         await newUser.save();
-        res.render('login');
+        res.render("login");
     } catch (err) {
         console.error(err);
         res.render('register');
     }
 };
+
+exports.todolist = async (req,res) => {
+    res.render('todolist');
+}

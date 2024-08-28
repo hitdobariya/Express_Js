@@ -1,45 +1,47 @@
 const express = require('express');
-const server = express();
-require('dotenv').config()
-port = process.env.PORT
-URL = process.env.MONGO_URL
-server.use(express.urlencoded({ extended: true }));
-const passport = require('passport');
-const session = require('express-session');
-const passportConfig = require('./passport-config');
-
-const userRoutes = require('./routes/user.routes');
+const app = express();
+const passport = require('passport')
+const expressSession = require('express-session');
+require("./passport-config.js");
+const userRoutes = require("./routes/user.routes.js");
 
 const ejs = require('ejs');
-const path = require('path');
-server.set("view engine", 'ejs');
-server.set('views', path.join(__dirname, 'views'));
+app.set("view engine", 'ejs');
 
 const morgan = require('morgan');
-server.use(morgan('dev'));
+app.use(morgan('dev'));
+
+require('dotenv').config();
+const port = process.env.PORT;
+const URL = process.env.MONGO_URL;
 
 const mongoose = require('mongoose');
 mongoose
     .connect(URL)
     .then(() => console.log(`Database connect successfully`))
     .catch(err => console.log(err))
-server.use(express.json());
+app.use(express.json());
 
-passportConfig(passport);
-server.use(session({
-    secret: 'your_secret_key',
-    resave: false,
-    saveUninitialized: false
-}));
-server.use(passport.initialize());
-server.use(passport.session());
+app.use(express.json());
+app.use(express.urlencoded({extended : true}));
 
-server.get('/', (req, res) => {
+app.use(expressSession({secret : "secret" , resave : false , saveUninitialized : false}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use((req ,res ,next) =>{
+    console.log(req.user);
+    res.locals.user = req.user; 
+    next();
+});
+
+app.get('/', (req, res) => {
     res.send('hello world');
 });
 
-server.use('/', userRoutes);
+app.use('/', userRoutes);
 
-server.listen(port, () => {
+app.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);
 });
