@@ -1,78 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <title><%= title %></title>
-    <link rel="canonical" href="<%= canonical %>" />
-    <meta name="google-site-verification" content="<%= googleSiteVerification %>" />
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="description" content="<%= description %>" />
-    <meta name="keywords" content="<%= keywords %>" />
-    <meta name="author" content="<%= author %>" />
-    <link rel="icon" href="<%= favicon %>" type="image/x-icon" />
-    <link rel="stylesheet" href="<%= fontawesomeCss %>" />
-    <link rel="stylesheet" href="<%= animationCss %>" />
-    <link rel="stylesheet" href="<%= styleCss %>" />
-    <link rel="stylesheet" href="<%= darkCss %>" />
-</head>
+    <head>
+        <title>Register</title>
+        <link rel="canonical" href=" " />
+        <meta name="google-site-verification"
+            content="kCT200-J0rfczENRkJQdYCqsDKkUo3Hvr3KZic_otwU" />
+        <meta charset="utf-8" />
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="icon"
+            href="https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/images/favicon.ico"
+            type="image/x-icon" />
+        <link rel="stylesheet"
+            href="https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/fonts/fontawesome/css/fontawesome-all.min.css" />
+        <link rel="stylesheet"
+            href="https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/plugins/animation/css/animate.min.css" />
+        <link rel="stylesheet"
+            href="https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/css/style.css" />
+        <link rel="stylesheet"
+            href="https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/css/dark.css" />
+    </head>
 
-<body>
-    <div class="auth-wrapper">
-        <div class="auth-content" style="width: 477px; height: 950px; margin-top: 50px">
-            <label style="display: inline-block; margin-bottom: 1.5rem">
-                <i class="icon feather icon-moon" id="theme-indicator" style="font-size: 22px"></i>
-                <input type="checkbox" id="theme-switch" class="d-none" />
-            </label>
-            <div class="auth-bg">
-                <span class="r"></span>
-                <span class="r s"></span>
-                <span class="r s"></span>
-                <span class="r"></span>
-            </div>
+    <body>
+        <div class="auth-wrapper">
+            <div class="auth-content"
+                style="width: 477px; height: 950px; margin-top: 50px">
+                <label style="display: inline-block; margin-bottom: 1.5rem">
+                    <i class="icon feather icon-moon" id="theme-indicator"
+                        style="font-size: 22px"></i>
+                    <input type="checkbox" id="theme-switch" class="d-none" />
+                </label>
+                <div class="auth-bg">
+                    <span class="r"></span>
+                    <span class="r s"></span>
+                    <span class="r s"></span>
+                    <span class="r"></span>
+                </div>
 
-            <div class="card">
-                <div class="card-body text-center">
-                    <div class="mb-4">
-                        <i class="feather icon-unlock auth-icon"></i>
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="mb-4">
+                            <i class="feather icon-unlock auth-icon"></i>
+                        </div>
+                        <h3 class="mb-4">Register User</h3>
+                        <form action="/register" method="post">
+                            <div class="input-group mb-3">
+                                <input type="text" id="first_name"
+                                    name="first_name" class="form-control"
+                                    placeholder="First name" required />
+                            </div>
+                            <div class="input-group mb-3">
+                                <input type="text" id="last_name"
+                                    name="last_name" class="form-control"
+                                    placeholder="Last name" required />
+                            </div>
+                            <div class="input-group mb-3">
+                                <input type="email" id="emp_email"
+                                    name="emp_email" class="form-control"
+                                    placeholder="Email" required />
+                            </div>
+                            <div class="input-group mb-3">
+                                <input type="tel" id="emp_phone"
+                                    name="emp_phone" class="form-control"
+                                    placeholder="Phone" required />
+                            </div>
+                            <div class="input-group mb-3">
+                                <input type="password" id="password"
+                                    name="password" class="form-control"
+                                    placeholder="Password" required />
+                            </div>
+                            <div class="input-group mb-3">
+                                <input type="text" id="department"
+                                    name="department" class="form-control"
+                                    placeholder="Department" required />
+                            </div>
+                            <div class="input-group mb-3">
+                                <input type="number" id="age" name="age"
+                                    class="form-control" placeholder="age"
+                                    required />
+                            </div>
+                            <button type="submit"
+                                class="btn btn-primary shadow-2 mb-1">
+                                Register User
+                            </button>
+                        </form>
+                        <p class="mb-0 text-muted">
+                            Already have an account? <a href="/login">Login</a>
+                        </p>
                     </div>
-                    <h3 class="mb-4">Register User</h3>
-                    <form action="<%= formAction %>" method="post">
-                        <div class="input-group mb-3">
-                            <input type="text" id="first_name" name="first_name" class="form-control" placeholder="First name" required />
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last name" required />
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="email" id="emp_email" name="emp_email" class="form-control" placeholder="Email" required />
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="tel" id="emp_phone" name="emp_phone" class="form-control" placeholder="Phone" required />
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required />
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="text" id="department" name="department" class="form-control" placeholder="Department" required />
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="number" id="age" name="age" class="form-control" placeholder="age" required />
-                        </div>
-                        <button type="submit" class="btn btn-primary shadow-2 mb-1">
-                            Register User
-                        </button>
-                    </form>
-                    <p class="mb-0 text-muted">
-                        Already have an account? <a href="<%= loginUrl %>">Login</a>
-                    </p>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script>
+        <script>
         document
             .getElementById("toggleConfirmPassword")
             .addEventListener("click", function () {
@@ -90,10 +112,14 @@
             });
     </script>
 
-    <script src="<%= vendorJs %>"></script>
-    <script src="<%= bootstrapJs %>"></script>
-    <script src="<%= pcodedJs %>"></script>
-    <script src="<%= darkModeJs %>"></script>
-</body>
+        <script
+            src="https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/js/vendor-all.min.js"></script>
+        <script
+            src="https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script
+            src="https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/js/pcoded.min.js"></script>
+        <script
+            src="https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/js/dark-mode.js"></script>
+    </body>
 
 </html>
