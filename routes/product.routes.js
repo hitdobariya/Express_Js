@@ -11,15 +11,15 @@ const {
     getSingleProduct
 } = require('../controller/product.controller');
 
-productRoutes.post('/', addProduct);
+productRoutes.post('/addproduct', addProduct);
 
 // productRoutes.put('/:id', replaceProduct);
 
-productRoutes.patch('/', updateProduct);
+productRoutes.patch('/updateproduct', updateProduct);
 
-productRoutes.delete('/', deleteProduct);
+productRoutes.delete('/deleteproduct', deleteProduct);
 
-productRoutes.get('/', getProduct);
+productRoutes.get('/getproduct', getProduct);
 
 productRoutes.get('/get-product', getSingleProduct);
 

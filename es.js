@@ -6,6 +6,7 @@ URL = process.env.MONGO_URL
 
 const productRoutes = require('./routes/product.routes');
 const userRoutes = require('./routes/user.routes');
+const cartRoutes = require('./routes/cart.routes');
 
 const morgan = require('morgan');
 server.use(morgan('dev'));
@@ -27,6 +28,7 @@ server.get('/', (req, res) => {
 
 server.use('/api/product', productRoutes);
 server.use('/api/user', userRoutes);
+server.use('/api/cart', cartRoutes)
 
 server.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);
