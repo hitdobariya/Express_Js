@@ -1,9 +1,23 @@
 const express = require('express');
 const app = express();
 const passport = require('passport')
-const expressSession = require('express-session');
+const session = require('express-session');
 require("./passport-config.js");
 const userRoutes = require("./routes/user.routes.js");
+const MongoStore = require("connect-mongo")
+
+
+app.use(session({
+    secret: "hit",
+    saveUninitialized: true,
+    resave: true,
+    store: MongoStore.create({mongoUrl:"mongodb+srv://hitdobariya:hitdobariya@cluster0.ncl5d.mongodb.net/todolist",collectionName:"sessions"}),
+    cookie : {
+        maxAge: 1000*60*60*12
+    }
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 const ejs = require('ejs');
 app.set("view engine", 'ejs');
@@ -25,7 +39,6 @@ app.use(express.json());
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
 
-app.use(expressSession({secret : "secret" , resave : false , saveUninitialized : false}));
 
 app.use(passport.initialize());
 app.use(passport.session());

@@ -123,36 +123,27 @@ const passport = require('passport');
 //     }
 // }
 
-exports.loginUser = async (req, res) => {
-    const { email, password } = req.body;
-    console.log('Login attempt:',  req.body);
-    res.render('login');
-};
-
-exports.Registration = async (req, res) => {
+// exports.loginUser = async (req, res) => {
+//     try {
+//         const { email, password } = req.body;
+//         console.log('Login attempt:', req.body);
+//         res.render('login');
+//     } catch (error) {
+//         console.error(err);
+//         res.status(500).json({ message: 'internal server error...' });
+//     }
+// };
+exports.Registration = async(req,res)=>{
     try {
-        const { first_name, last_name, email, phone, password, department, age } = req.body;
-        const user = await User.findOne({ userName: req.body.email, isDelete: false });
-        if (user)
-            return res.status(400).send('User allready Exist...')
-        // const hashPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({
-            first_name,
-            last_name,
-            email,
-            phone,
-            password,
-            department,
-            age
-        });
-        await newUser.save();
-        res.render("login");
-    } catch (err) {
-        console.error(err);
-        res.render('register');
+        let user = await User.findOne({email:req.body.email,active:false})
+        if(user) {
+            return res.status(400).render('register')
+        }
+        let haspass = await bcrypt.hash(req.body.password,10)
+        user = await User.create({...req.body,password:haspass});
+        res.status(201).redirect("login")
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: "Internal Server error"});
     }
-};
-
-exports.todolist = async (req,res) => {
-    res.render('todolist');
 }
