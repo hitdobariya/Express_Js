@@ -6,9 +6,10 @@ exports.addToCart = async (req, res) => {
         let cart = await Cart.findOne({ user: userId, productId: req.body.productId, isDelete: false });
         if (cart) {
             return await Cart.findByIdAndUpdate({ cartId: cart.cartId }, { $inc: { quantity: 1 } }, { new: true });
+        } else {
+            cart = await Cart.create({ user: userId, ...req.body });
+            res.status(201).json({ message: 'cart added...', cart });
         }
-        cart = await Cart.create({ user: userId, ...req.body });
-        res.status(201).json({ message: 'cart added...', cart })
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'internal server error...' });
