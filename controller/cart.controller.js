@@ -5,7 +5,7 @@ exports.addToCart = async (req, res) => {
         let userId = req.user._id;
         let cart = await Cart.findOne({ user: userId, productId: req.body.productId, isDelete: false });
         if (cart) {
-            return await Cart.findByIdAndUpdate({ cartId: cart.cartId }, { $inc: { quantity: +1 } }, { new: true });
+            return await Cart.findByIdAndUpdate({ cartId: cart.cartId }, { $inc: { quantity: 1 } }, { new: true });
         }
         cart = await Cart.create({ user: userId, ...req.body });
         res.status(201).json({ message: 'cart added...', cart })
@@ -34,7 +34,7 @@ exports.deleteCart = async (req, res) => {
 
 exports.updateCart = async (req, res) => {
     try {
-        let cart = await Cart.updateOne({ _id: req.query.cartId }, { $set: { quantity: req.query.quantity } }, { new: true });
+        let cart = await Cart.updateOne({ _id: req.query.cartId }, { $inc: { quantity: +req.query.quantity } }, { new: true });
         console.log(cart);
         if (!cart) return res.status(404).json({ message: 'cart not found...' });
         res.status(200).json({ message: 'cart updated...', cart });
