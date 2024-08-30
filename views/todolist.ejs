@@ -1,14 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+    <head>
+        <title>Todo List</title>
+        <link rel="canonical" href=" " />
+        <meta name="google-site-verification"
+            content="kCT200-J0rfczENRkJQdYCqsDKkUo3Hvr3KZic_otwU" />
+        <meta charset="utf-8" />
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="icon"
+            href="https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/images/favicon.ico"
+            type="image/x-icon" />
+        <link rel="stylesheet"
+            href="https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/fonts/fontawesome/css/fontawesome-all.min.css" />
+        <link rel="stylesheet"
+            href="https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/plugins/animation/css/animate.min.css" />
+        <link rel="stylesheet"
+            href="https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/css/style.css" />
+        <link rel="stylesheet"
+            href="https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/css/dark.css" />
+        <style>
+        .todolist-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f2f2f2;
+        }
+        .todolist-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        .todolist-content h3 {
+            margin-bottom: 20px;
+        }
+        .todolist-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .todolist-content ul li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .todolist-content .input-group {
+            margin-bottom: 15px;
+        }
+        .todolist-content .input-group input {
+            width: calc(100% - 100px);
+            display: inline-block;
+        }
+        .todolist-content .input-group button {
+            width: 100px;
+            display: inline-block;
+        }
+        .todolist-content .footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+    </head>
 
-<body>
-    <h1>todo list page</h1>
-</body>
+    <body>
+        <div class="todolist-wrapper">
+            <div class="todolist-content">
+                <h3>Your Todo List</h3>
+                <div class="input-group">
+                    <input type="text" id="new-task"
+                        placeholder="Add new task" />
+                    <button id="add-task" class="btn btn-primary">Add</button>
+                </div>
+                <ul id="task-list">
+                </ul>
+                <div class="footer">
+                    <a href="/logout" class="btn btn-secondary">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <script
+            src="https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/js/vendor-all.min.js"></script>
+        <script
+            src="https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script
+            src="https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/js/pcoded.min.js"></script>
+        <script
+            src="https://appsrv1-147a1.kxcdn.com/data-able-v100-enh1/js/dark-mode.js"></script>
+        <script>
+        document.getElementById('add-task').addEventListener('click', function() {
+            var taskInput = document.getElementById('new-task');
+            var taskValue = taskInput.value.trim();
+            if (taskValue) {
+                var taskList = document.getElementById('task-list');
+                var newTaskItem = document.createElement('li');
+                newTaskItem.textContent = taskValue;
+                taskList.appendChild(newTaskItem);
+                taskInput.value = '';
+            }
+        });
+    </script>
+    </body>
 
 </html>

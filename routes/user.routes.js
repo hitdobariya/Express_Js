@@ -13,18 +13,17 @@ const {
     // changePassword,
     // forgotPassword,
     // deleteUser,
-    // specUser,
     Registration,
-    todolist
+    todolist,
+    logout
 } = require('../controller/user.controller');
 // const { verifyToken } = require('../helper/tokenVerify');
-// const { upload } = require('../helper/uploadImage');
 const passport = require('passport');
-const { isAuthenticated} = require('../helper/passportauth')
- 
+const { isAuthenticated } = require('../helper/passportauth')
+
 // userRoutes.post('/login', userLogin)
 
-// userRoutes.post('/reg', upload.single('profileImage'), userRegistration);
+// userRoutes.post('/reg' userRegistration);
 
 // userRoutes.get("/getuser", verifyToken, userProfile);
 
@@ -36,31 +35,25 @@ const { isAuthenticated} = require('../helper/passportauth')
 
 // userRoutes.delete('/deleteuser', verifyToken, deleteUser);
 
-// userRoutes.get('/users', specUser);
-
-userRoutes.get("/login",(req,res) => {
+userRoutes.get("/login", (req, res) => {
     res.render('login');
 });
 
-userRoutes.get("/register",(req,res) => {
+userRoutes.post("/login", passport.authenticate('local', {
+    successRedirect: "/todolist",
+    failureRedirect: "/login",
+}));
+
+userRoutes.get("/register", (req, res) => {
     res.render('register');
 });
 
-userRoutes.post("/register",Registration);
+userRoutes.post("/register", Registration);
 
-userRoutes.post("/login", passport.authenticate('local', {
-    successRedirect: "todo-list",
-    failureRedirect: "login",
-}));
-
-
-userRoutes.get("/todo-list",(req,res) => {
+userRoutes.get("/todolist", isAuthenticated, (req, res) => {
     res.render('todolist');
 });
 
-// userRoutes.get("/logout", (req, res) => {
-//     req.logout();
-//     res.send("logged out");
-// });
+userRoutes.get('/logout', isAuthenticated, logout);
 
 module.exports = userRoutes;

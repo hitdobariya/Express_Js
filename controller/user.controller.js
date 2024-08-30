@@ -1,6 +1,5 @@
 const User = require('../model/user.model');
 const bcrypt = require('bcrypt');
-const passport = require('passport');
 
 // exports.userLogin = async (req, res) => {
 //     try {
@@ -19,12 +18,10 @@ const passport = require('passport');
 
 // exports.userRegistration = async (req, res) => {
 //     try {
-//         let imagepath = "";
 //         let user = await User.findOne({ email: req.body.email, isDelete: false });
 //         if (user) return res.status(400).json({ message: 'user already exists...' });
-//         if (req.file) { imagepath = req.file.path.replace(/\\/g, '/') };
 //         let hashpasssword = await bcrypt.hash(req.body.password, 10);
-//         user = await User.create({ ...req.body, password: hashpasssword, profileImage: imagepath });
+//         user = await User.create({ ...req.body, password: hashpasssword});
 //         res.status(201).json({ message: 'user registration successfully...' });
 
 //     } catch (error) {
@@ -55,8 +52,6 @@ const passport = require('passport');
 // exports.updateUser = async (req, res) => {
 //     try {
 //         let user = req.user;
-//         let imagepath = '';
-//         if (req.file) { imagepath = req.file.path.replace(/\\/g, '/') };
 //         user = await User.findByIdAndUpdate(user._id, { $set: req.body }, { new: true });
 //         res.status(200).json({ user, message: 'user update successfully...' });
 //     } catch (error) {
@@ -108,21 +103,6 @@ const passport = require('passport');
 //     }
 // };
 
-// exports.specUser = async (req, res) => {
-//     try {
-//         let user = {
-//             firstName: "hit",
-//             lastName: "patel",
-//             email: "hit@gmail.com",
-//             mobileno: "1234567891",
-//         }
-//         res.render('user.ejs', { user });
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({ message: 'internal server error...' });
-//     }
-// }
-
 // exports.loginUser = async (req, res) => {
 //     try {
 //         const { email, password } = req.body;
@@ -133,17 +113,30 @@ const passport = require('passport');
 //         res.status(500).json({ message: 'internal server error...' });
 //     }
 // };
+
 exports.Registration = async(req,res)=>{
     try {
-        let user = await User.findOne({email:req.body.email,active:false})
+        let user = await User.findOne({email:req.body.email,isDeleted:false})
         if(user) {
-            return res.status(400).render('register')
+            return res.status(400).render('register').send({message: 'user already exist...'})
         }
-        let haspass = await bcrypt.hash(req.body.password,10)
-        user = await User.create({...req.body,password:haspass});
+        let hashpasssword = await bcrypt.hash(req.body.password, 10);
+        user = await User.create({...req.body}, {password : hashpasssword});
         res.status(201).redirect("login")
     } catch (error) {
         console.log(error);
-        res.status(500).json({msg: "Internal Server error"});
+        res.status(500).redirect('register');
+    }
+};
+
+exports.logout = async(req,res) =>{
+    try {
+            req.logout((err) => {
+            if (err) return next(err);
+            res.redirect('/login');
+            });
+    } catch (error) {
+        console.error(err);
+        res.status(500).json({ message: 'internal server error...' });
     }
 }
