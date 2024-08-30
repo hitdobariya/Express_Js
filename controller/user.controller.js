@@ -1,142 +1,43 @@
 const User = require('../model/user.model');
 const bcrypt = require('bcrypt');
 
-// exports.userLogin = async (req, res) => {
-//     try {
-//         let user = await User.findOne({ email: req.body.email, isDelete: false });
-//         if (!user) return res.status(404).json({ message: 'user not found...' });
-//         let matchpassword = await bcrypt.compare(req.body.password, user.password);
-//         if (!matchpassword) return res.status(400).json({ message: 'email or password incorrect...' });
-//         let token = await jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-//         // console.log(token);      
-//         res.status(200).json({ message: 'login successs...', token });
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({ message: 'internal server error...' });
-//     }
-// };
-
-// exports.userRegistration = async (req, res) => {
-//     try {
-//         let user = await User.findOne({ email: req.body.email, isDelete: false });
-//         if (user) return res.status(400).json({ message: 'user already exists...' });
-//         let hashpasssword = await bcrypt.hash(req.body.password, 10);
-//         user = await User.create({ ...req.body, password: hashpasssword});
-//         res.status(201).json({ message: 'user registration successfully...' });
-
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({ message: 'internal server error...' });
-//     }
-// };
-
-// exports.userProfile = async (req, res) => {
-//     try {
-//         res.status(200).json(req.user);
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({ message: 'internal server error...' });
-//     }
-// };
-
-// exports.getUser = async (req, res) => {
-//     try {
-//         let user = await User.find({ isDelete: false });
-//         res.status(200).json(user);
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({ message: 'internal server error...' });
-//     }
-// };
-
-// exports.updateUser = async (req, res) => {
-//     try {
-//         let user = req.user;
-//         user = await User.findByIdAndUpdate(user._id, { $set: req.body }, { new: true });
-//         res.status(200).json({ user, message: 'user update successfully...' });
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({ message: 'internal server error...' });
-//     }
-// };
-
-// exports.changePassword = async (req, res) => {
-//     try {
-//         const { currentpassword, newpassword, confirmpassword } = req.body;
-//         let user = req.user;
-//         if (!currentpassword || !newpassword || !confirmpassword) return res.json({ message: 'provide all passwords...' });
-//         if (newpassword !== confirmpassword) return res.json({ message: 'confirmpassword not matched...' });
-//         let matchpassword = await bcrypt.compare(currentpassword, user.password);
-//         if (!matchpassword) return res.status(400).json({ message: 'Incorrect currentpassword...' });
-//         let hashpasssword = await bcrypt.hash(newpassword, 10);
-//         user = await User.findByIdAndUpdate(user._id, { $set: { password: hashpasssword } }, { new: true });
-//         res.status(200).json({ message: 'password changed successfully...' });
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({ message: 'internal server error...' });
-//     }
-// };
-
-// --- hard delete
-// exports.deleteUser = async (req, res) => {
-//     try {
-//         let user = await User.findById(req.query.id);
-//         if (!user) return res.status(404).json({ message: 'user not found...' });
-//         // user = await User.deleteOne({ _id: req.query.id });
-//         // user = await User.findByIdAndDelete(user._id);
-//         // res.status(200).json({ message: 'user deleted successfully...' });
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({ message: 'internal server error...' });
-//     }
-// };
-
-// --- soft delete
-// exports.deleteUser = async (req, res) => {
-//     try {
-//         let user = req.user;
-//         user = await User.findByIdAndUpdate(user._id, { $set: { isDelete: true } }, { new: true });
-//         res.status(200).json({ message: 'user deleted successfully...' });
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({ message: 'internal server error...' });
-//     }
-// };
-
-// exports.loginUser = async (req, res) => {
-//     try {
-//         const { email, password } = req.body;
-//         console.log('Login attempt:', req.body);
-//         res.render('login');
-//     } catch (error) {
-//         console.error(err);
-//         res.status(500).json({ message: 'internal server error...' });
-//     }
-// };
-
-exports.Registration = async(req,res)=>{
+exports.Registration = async (req, res) => {
     try {
-        let user = await User.findOne({email:req.body.email,isDeleted:false})
-        if(user) {
-            return res.status(400).render('register').send({message: 'user already exist...'})
+        let user = await User.findOne({ email: req.body.email, isDeleted: false });
+        if (user) {
+            return res.status(400).render('register').send({ message: 'user already exist...' });
         }
         let hashpasssword = await bcrypt.hash(req.body.password, 10);
-        user = await User.create({...req.body}, {password : hashpasssword});
-        res.status(201).redirect("login")
+        user = await User.create({ ...req.body }, { password: hashpasssword });
+        res.status(201).redirect("login");
     } catch (error) {
         console.log(error);
         res.status(500).redirect('register');
     }
 };
 
-exports.logout = async(req,res) =>{
+exports.logout = async (req, res) => {
     try {
-            req.logout((err) => {
+        req.logout((err) => {
             if (err) return next(err);
             res.redirect('/login');
-            });
+        });
     } catch (error) {
         console.error(err);
         res.status(500).json({ message: 'internal server error...' });
+    }
+}
+
+exports.todolist = async (req, res) => {
+    try {
+        let users = await User.find({ isDeleted: false });
+        if (users.length > 0) {
+            return res.render('todolist', { users });
+        } else {
+            res.status(400).send("No users found");
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: "Internal Server error" });
     }
 }
