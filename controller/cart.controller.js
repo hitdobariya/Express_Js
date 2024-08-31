@@ -17,7 +17,7 @@ exports.addToCart = async (req, res) => {
 };
 
 exports.getAllCarts = async (req, res) => {
-    let carts = await Cart.find({ user: req.user._id });
+    let carts = await Cart.find({ user: req.user._id , isDelete:false});
     res.json(carts);
 };
 
