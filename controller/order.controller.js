@@ -28,3 +28,14 @@ exports.createOrder = async (req, res) => {
     }
 };
 
+exports.deleteOrder = async (req, res) => {
+    try {
+        let order = await Order.updateOne({ _id: req.body.OrderId }, { $set: { isDelete: true } }, { new: true });
+        console.log(order);
+        if (!order) return res.status(404).json({ message: 'order not found...' });
+        res.status(200).redirect('/addtocart').json({ message: 'order deleted...', order });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'internal server error...' });
+    }
+};
