@@ -10,3 +10,5 @@ const storage = multer.diskStorage({
 });
 
 exports.upload = multer({ storage: storage });
+ 
+// https://www.figma.com/design/A5bPmwUiH9RfoluPAOpT2A/Furniture-Shopping-App-UI-Kit?node-id=0-36&node-type=CANVAS&t=jcu1Z743Fwxycw4C-0

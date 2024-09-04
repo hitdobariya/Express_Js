@@ -1,11 +1,12 @@
 const Product = require('../model/product.model');
+const productservices = require('../services/product.service');
+const productservice = new productservices();
 
 exports.addProduct = async (req, res) => {
     try {
-        const { productName, image, title, price, description, manufacture_By } = req.body;
-        let product = await Product.findOne({ _id: req.body.id, isDelete: false });
+        let product = await productservice.getproduct();
         if (product) res.status(500).json({ message: 'product already exists...' });
-        product = await Product.create({ productName, image, title, price, description, manufacture_By });
+        product = await productservice.addproduct();
         product.save();
         res.status(201).json({ message: 'product add successfully...' });
     } catch (error) {
@@ -16,7 +17,7 @@ exports.addProduct = async (req, res) => {
 
 exports.getProduct = async (req, res) => {
     try {
-        let product = await Product.find({ isDelete: false });
+        let product = await productservice.getallproduct();
         res.status(200).json(product);
     } catch (error) {
         console.log(error);
@@ -26,7 +27,7 @@ exports.getProduct = async (req, res) => {
 
 exports.getSingleProduct = async (req, res) => {
     try {
-        let product = await Product.findOne({ _id: req.query.id }, { isDelete: false });
+        let product = await Product.findOne({ _id: req.body.id }, { isDelete: false });
         if (!product) return res.status(404).json({ message: 'product not found...' });
         res.status(200).json(product);
     } catch (error) {
@@ -37,11 +38,9 @@ exports.getSingleProduct = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
     try {
-        let product = await Product.findOne({ _id: req.query.id }, { isDelete: false });
+        let product = await productservice.getproduct();
         if (!product) return res.status(404).json({ message: 'product not found...' });
-        // product = await Product.updateOne({ _id: req.query.id }, { $set: req.body }, { new: true });
-        // product = await Product.findByIdAndDelete(req.query.id, { $set: req.body }, { new: true });
-        // product.save();
+        product = await Product.updateOne({ _id: req.body.id }, { $set: req.body }, { new: true });
         res.status(200).json({ product, message: 'product update successfully...' });
     } catch (error) {
         console.log(error);
@@ -67,21 +66,12 @@ exports.updateProduct = async (req, res) => {
 // --- soft delete
 exports.deleteProduct = async (req, res) => {
     try {
-        let product = await Product.findOne({ _id: req.query.id }, { isDelete: false });
+        let product = await productservice.getproduct();
         if (!product) return res.status(404).json({ message: 'product not found...' });
-        product = await Product.updateOne({ _id: req.query.id }, { $set: { isDelete: true } }, { new: true });
+        product = await Product.updateOne({ _id: req.body.id }, { $set: { isDelete: true } }, { new: true });
         res.status(200).json({ message: 'product delete successfully...' });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'internal server error...' });
     }
 };
-
-exports.registration = async (req,res) => {
-    try { 
-        
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: 'internal server error...'});
-    }
-}

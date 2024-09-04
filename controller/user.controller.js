@@ -1,10 +1,12 @@
 const User = require('../model/user.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const userservices = require('../services/user.services');
+const userservice = new userservices();
 
 exports.userLogin = async (req, res) => {
     try {
-        let user = await User.findOne({ email: req.body.email, isDelete: false });
+        let user = await userservice.getuser({ email: req.body.email, isDelete: false });
         if (!user) return res.status(404).json({ message: 'user not found...' });
         let matchpassword = await bcrypt.compare(req.body.password, user.password);
         if (!matchpassword) return res.status(400).json({ message: 'email or password incorrect...' });
@@ -20,15 +22,15 @@ exports.userLogin = async (req, res) => {
 exports.userRegistration = async (req, res) => {
     try {
         let imagepath = "";
-        let user = await User.findOne({ email: req.body.email, isDelete: false });
+        let user = await userservice.getuser({ email: req.body.email, isDelete: false });
         if (user) {
             return res.status(400).json({ message: 'user already exists...' });
         }
-            if (req.file) { imagepath = req.file.path.replace(/\\/g, '/') };
-            let hashpasssword = await bcrypt.hash(req.body.password, 10);
-            user = await User.create({ ...req.body, password: hashpasssword , profileImage: imagepath });
-            res.status(201).json({ message: 'user registration successfully...' });
-        
+        if (req.file) { imagepath = req.file.path.replace(/\\/g, '/') };
+        let hashpasssword = await bcrypt.hash(req.body.password, 10);
+        user = await userservice.register({ ...req.body, password: hashpasssword, profileImage: imagepath });
+        res.status(201).json({ message: 'user registration successfully...' });
+
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'internal server error...' });
@@ -46,7 +48,7 @@ exports.userProfile = async (req, res) => {
 
 exports.getUser = async (req, res) => {
     try {
-        let user = await User.find({ isDelete: false });
+        let user = await userservice.getalluser({ isDelete: false });
         res.status(200).json(user);
     } catch (error) {
         console.log(error);
@@ -56,7 +58,7 @@ exports.getUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
     try {
-        let user = req.user;
+        let user = userservice.getuser({ email: req.body.email, isDelete: false });
         let imagepath = '';
         if (req.file) { imagepath = req.file.path.replace(/\\/g, '/') };
         user = await User.findByIdAndUpdate(user._id, { $set: req.body }, { new: true });

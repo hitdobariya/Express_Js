@@ -3,6 +3,7 @@ const Cart = require("../model/cart.model");
 
 exports.createOrder = async (req, res) => {
     try {
+        
         let cart = await Cart.find({ user: req.user._id, isDelete: false }).populate("productId");
         console.log(cart);
         let orderItem = cart.map((item) => ({
@@ -12,6 +13,7 @@ exports.createOrder = async (req, res) => {
             totalAmount: item.quantity * item.productId.price
         }));
         // console.log(orderItem);
+
         let amount = orderItem.reduce((total, item) => (total += item.totalAmount), 0);
         console.log(amount);
         
@@ -20,8 +22,10 @@ exports.createOrder = async (req, res) => {
             items: orderItem,
             totalPrice: amount
         });
+
         await Cart.updateMany({ user: req.user._id, isDelete: false }, { isDelete: true });
         res.json({ message: 'order placed...', order });
+
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'internal server error...' });
