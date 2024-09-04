@@ -4,7 +4,7 @@ class productservices {
 
     /*Addnew product */
     async addproduct(body) {
-        return await Product.create({ ...req.body })
+        return await Product.create(body)
     };
 
     /*get all product */
@@ -14,7 +14,7 @@ class productservices {
 
     /*get single product */
     async getproduct(body) {
-        return await Product.findById( body)
+        return await Product.findOne(body)
     };
 
 }
